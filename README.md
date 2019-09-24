@@ -7,7 +7,7 @@ https://github.com/kreativekorp/barcode
   * Output to PNG, GIF or JPEG
   * Generates UPC-A, UPC-E, EAN-13, EAN-8, Code 39, Code 93, Code 128, Codabar, ITF and Data Matrix.
 
-Use from a PHP script:
+PHP Code (check out examples/ as well):
 
 ```
 require_once("bootstrap.php");
@@ -51,8 +51,10 @@ $opts = [
 	"widths" => [
 		'QuietArea' => 4      // Width of quiet area units. Default is 1. Use 0 to suppress quiet area.
 		'NarrowModules' => 1, // Width of narrow modules and spaces. Default is 1.
-		'WideModules' 	=> 3, // Width of wide modules and spaces. Applies to Code 39, Codabar, and ITF only. Default is 3.
-		'NarrowSpace' 	=> 1, // Width of narrow space between characters. Applies to Code 39 and Codabar only. Default is 1.
+		'WideModules' 	=> 3, // Width of wide modules and spaces. 
+								 Applies to Code 39, Codabar, and ITF only. Default is 3.
+		'NarrowSpace' 	=> 1, // Width of narrow space between characters. 
+								 Applies to Code 39 and Codabar only. Default is 1.
 		'w4' => 1,
 		'w5' => 1,
 		'w6' => 1,
@@ -75,13 +77,17 @@ $opts = [
 		'Left' => 0 	   // Left padding. Default is value of `Horizontal`.
 		],
 	"label" => [
-		'Height' => 10, // Distance from text baseline to bottom of modules. Default is 10. Applies to linear barcodes only.
+		'Height' => 10, // Distance from text baseline to bottom of modules. Default is 10.
+						   Applies to linear barcodes only.
 		'Size' => 1, 	// Text size. The GD library built-in font number from 1 to 5 and the default is 1.
-		'Color' => new BarColor(0) // Text color in `#RRGGBB` or `R,G,B,A` format. Applies to linear barcodes only.
+		'Color' => new BarColor(0) // Text color in `#RRGGBB` or `R,G,B,A` format.
+									  Applies to linear barcodes only.
 		],
 	"mm" => [
-		'Shape' => '', // Module shape. One of: `s` for square, `r` for round, or `x` for X-shaped. Default is `s`. Applies to matrix barcodes only.
-		'Density' => 1 // Module density. A number between 0 and 1. Default is 1. Applies to matrix barcodes only.
+		'Shape' => '', // Module shape. One of: `s` for square, `r` for round, or `x` for X-shaped.
+						  Default is `s`. Applies to matrix barcodes only.
+		'Density' => 1 // Module density. A number between 0 and 1. Default is 1.
+						  Applies to matrix barcodes only.
 		],
 	"Width" => 400, // Overrides scale factors
 	"Height" => 400 // Overrides scale factors
