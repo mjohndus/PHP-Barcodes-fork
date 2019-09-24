@@ -49,7 +49,8 @@ $opts = [
 			9 => new BarColor(0)		// C9
 		],
 	"widths" => [
-		'QuietArea' => 4      // Width of quiet area units. Default is 1. Use 0 to suppress quiet area.
+		'QuietArea' => 4      // Width of quiet area units. Default is 1. 
+					 Use 0 to suppress quiet area.
 		'NarrowModules' => 1, // Width of narrow modules and spaces. Default is 1.
 		'WideModules' 	=> 3, // Width of wide modules and spaces. 
 					 Applies to Code 39, Codabar, and ITF only. Default is 3.
@@ -63,7 +64,8 @@ $opts = [
 		'w9' => 1
 		],
 	"scale" => [
-		'Factor' => 4,	   // Scale factor. Default is 1 for linear barcodes or 4 for matrix barcodes.
+		'Factor' => 4,	   // Scale factor. 
+				      Default is 1 for linear barcodes or 4 for matrix barcodes.
 		'Horizontal' => 1, // Horizontal scale factor. Overrides `Factor`.
 		'Vertical'   => 1  // Vertical scale factor. Overrides `Factor`.
 		],
@@ -79,7 +81,8 @@ $opts = [
 	"label" => [
 		'Height' => 10, // Distance from text baseline to bottom of modules. Default is 10.
 				   Applies to linear barcodes only.
-		'Size' => 1, 	// Text size. The GD library built-in font number from 1 to 5 and the default is 1.
+		'Size' => 1, 	// Text size. 
+				  The GD library built-in font number from 1 to 5 and the default is 1.
 		'Color' => new BarColor(0) // Text color in `#RRGGBB` or `R,G,B,A` format.
 				  Applies to linear barcodes only.
 		],
