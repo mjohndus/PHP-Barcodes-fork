@@ -55,6 +55,25 @@ class Base {
 		imagedestroy($this->image);
 	}
 
+	public function use_image($image, $code, $pX = NULL, $pY = NULL)
+	{
+		$this->code = $code;
+		$this->image = $image;
+
+		list($width, $height, $x, $y, $w, $h) = $this->calculate_size_ext();
+
+		$this->allocate_colors();
+
+		$this->configure($this->config);
+		
+		if (!is_null($pX) && !is_null($pY)){
+			$x = $pX;
+			$y = $pY;
+		}
+
+		$this->render_image($x, $y, $w, $h);
+	}
+
 	private function calculate_size_ext()
 	{
 		$size = $this->calculate_size();

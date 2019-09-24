@@ -146,6 +146,16 @@ class Barcodes {
 		$this->renderer->create_image($code, $path);
 	}
 
+	public function forPChart(\pChart\pDraw $MyPicture, $data, array $opts = [], $X = NULL, $Y = NULL)
+	{
+		$this->parse_opts($opts);
+
+		$code = $this->encode($data);
+
+		$this->renderer->configure($this->config);
+		$this->renderer->use_image($MyPicture->Picture, $code, $X, $Y);
+	}
+
 	private function encode($data)
 	{
 		switch ($this->symbology) {
