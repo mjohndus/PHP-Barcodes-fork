@@ -92,8 +92,9 @@ $opts = [
 		'Density' => 1 // Module density. A number between 0 and 1. Default is 1.
 				  Applies to matrix barcodes only.
 		],
-	"Width" => 400, // Overrides scale factors
-	"Height" => 400 // Overrides scale factors
+	"Width" => 400,  // Overrides scale factors
+	"Height" => 400, // Overrides scale factors
+	"Angle" => NULL	 // Only valid for use with pChart
 ];
 
 $generator->render($data, $opts, "temp/example_dmtxs_short.png");
