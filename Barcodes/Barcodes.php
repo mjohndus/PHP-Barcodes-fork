@@ -64,7 +64,7 @@ class Barcodes {
 	private function parse_opts($opts)
 	{
 		// label
-		$this->config["label"] = ['Height' => 10, 'Size' => 1, 'Color' => new BarColor(0)];
+		$this->config["label"] = ['Height' => 10, 'Size' => 1, 'Color' => new BarColor(0), 'Skip' => FALSE];
 
 		if (isset($opts['label'])){
 			$this->config["label"] = array_replace($this->config["label"], $opts['label']);
@@ -135,7 +135,7 @@ class Barcodes {
 		$this->config['Width']  = (isset($opts['Width'])  ? (int)$opts['Width']  : NULL);
 		$this->config['Height'] = (isset($opts['Height']) ? (int)$opts['Height'] : NULL);
 
-		// rotation
+		// rotation (pChart only)
 		$this->config['Angle'] = (isset($opts['Angle']) ? (int)$opts['Angle'] : NULL);
 	}
 

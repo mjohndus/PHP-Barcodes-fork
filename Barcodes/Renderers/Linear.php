@@ -56,12 +56,14 @@ class Linear extends Base {
 				$mx = $mw;
 			}
 
-			if (isset($block['l'])){
-				$text = $block['l'][0];
-				$lx = ($x + ($mx - $x) * $lx);
-				$lw = imagefontwidth($this->config['label']['Size']) * strlen($text);
-				$lx = round($lx - $lw / 2);
-				imagestring($this->image, $this->config['label']['Size'], $lx, $ly, $text, $this->config['label']['Color']);
+			if ($this->config['label']['Skip'] != TRUE){
+				if (isset($block['l'])){
+					$text = $block['l'][0];
+					$lx = ($x + ($mx - $x) * $lx);
+					$lw = imagefontwidth($this->config['label']['Size']) * strlen($text);
+					$lx = round($lx - $lw / 2);
+					imagestring($this->image, $this->config['label']['Size'], $lx, $ly, $text, $this->config['label']['Color']);
+				}
 			}
 
 			$x = $mx;

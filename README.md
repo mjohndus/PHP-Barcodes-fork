@@ -83,8 +83,9 @@ $opts = [
 				   Applies to linear barcodes only.
 		'Size' => 1, 	// Text size. 
 				  The GD library built-in font number from 1 to 5 and the default is 1.
-		'Color' => new BarColor(0) // Text color in `#RRGGBB` or `R,G,B,A` format.
+		'Color'=> new BarColor(0), // Text color in `#RRGGBB` or `R,G,B,A` format.
 				  Applies to linear barcodes only.
+		'Skip' => FALSE // Skip printing the label
 		],
 	"mm" => [
 		'Shape' => '', // Module shape. One of: `s` for square, `r` for round, or `x` for X-shaped.
