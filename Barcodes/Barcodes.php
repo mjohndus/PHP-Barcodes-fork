@@ -64,7 +64,7 @@ class Barcodes {
 	private function parse_opts($opts)
 	{
 		// label
-		$this->config["label"] = ['Height' => 10, 'Size' => 1, 'Color' => new BarColor(0), 'Skip' => FALSE];
+		$this->config["label"] = ['Height' => 10, 'Size' => 1, 'Color' => new BarColor(0), 'Skip' => FALSE, 'TTF' => NULL, 'Offset' => 0];
 
 		if (isset($opts['label'])){
 			$this->config["label"] = array_replace($this->config["label"], $opts['label']);
