@@ -84,8 +84,10 @@ class Base {
 
 		if (!is_null($this->config["Angle"])){
 			$rotate = imagerotate($this->image, $this->config["Angle"], $trans);
-			imagecopy($image, $rotate, $pX, $pY, 0, 0, $width, $width);
+			$cropped = imagecropauto($rotate, IMG_CROP_SIDES, $trans);
+			imagecopy($image, $cropped, $pX, $pY, 0, 0, imagesx($cropped), imagesy($cropped));
 			imagedestroy($rotate);
+			imagedestroy($cropped);
 			imagedestroy($this->image);
 		}
 	}
