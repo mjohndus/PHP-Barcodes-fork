@@ -134,6 +134,9 @@ class Barcodes {
 		// dimentions
 		$this->config['Width']  = (isset($opts['Width'])  ? (int)$opts['Width']  : NULL);
 		$this->config['Height'] = (isset($opts['Height']) ? (int)$opts['Height'] : NULL);
+
+		// rotation
+		$this->config['Angle'] = (isset($opts['Angle']) ? (int)$opts['Angle'] : NULL);
 	}
 
 	public function render($data, array $opts = [], $path)

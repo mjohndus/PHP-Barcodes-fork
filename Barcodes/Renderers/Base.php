@@ -58,20 +58,36 @@ class Base {
 	public function use_image($image, $code, $pX = NULL, $pY = NULL)
 	{
 		$this->code = $code;
-		$this->image = $image;
 
 		list($width, $height, $x, $y, $w, $h) = $this->calculate_size_ext();
 
-		$this->allocate_colors();
-
-		$this->configure($this->config);
-		
-		if (!is_null($pX) && !is_null($pY)){
-			$x = $pX;
-			$y = $pY;
+		if (!is_null($this->config["Angle"])){
+			$width = max($width,$height);
+			$this->image = imagecreatetruecolor($width, $width);
+			imagealphablending($this->image, FALSE);
+			$trans = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
+			imagefilledrectangle($this->image, 0, 0, $width, $width, $trans);
+			imagealphablending($this->image, TRUE);
+			imagesavealpha($this->image, TRUE);
+		} else {
+			$this->image = $image;
+			if (!is_null($pX) && !is_null($pY)){
+				$x = $pX;
+				$y = $pY;
+			}
 		}
 
+		$this->allocate_colors();
+		$this->configure($this->config);
+
 		$this->render_image($x, $y, $w, $h);
+
+		if (!is_null($this->config["Angle"])){
+			$rotate = imagerotate($this->image, $this->config["Angle"], $trans);
+			imagecopy($image, $rotate, $pX, $pY, 0, 0, $width, $width);
+			imagedestroy($rotate);
+			imagedestroy($this->image);
+		}
 	}
 
 	private function calculate_size_ext()
