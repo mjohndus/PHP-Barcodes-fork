@@ -156,7 +156,7 @@ class Barcodes {
 		$code = $this->encode($data);
 
 		$this->renderer->configure($this->config);
-		$this->renderer->use_image($MyPicture->Picture, $code, $X, $Y);
+		$this->renderer->use_image($MyPicture->gettheImage(), $code, $X, $Y);
 	}
 
 	private function encode($data)
