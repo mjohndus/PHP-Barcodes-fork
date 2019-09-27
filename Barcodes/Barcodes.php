@@ -4,8 +4,8 @@ namespace Barcodes;
 
 use Barcodes\BarColor;
 use Barcodes\BarException;
-use Renderers\Linear;
-use Renderers\Matrix;
+use Barcodes\Renderers\Linear;
+use Barcodes\Renderers\Matrix;
 
 class Barcodes {
 
@@ -43,7 +43,7 @@ class Barcodes {
 			case 'ean128c':
 			case 'ean128ac':
 			case 'ean128bc':
-				$this->renderer = new Renderers\Linear();
+				$this->renderer = new Linear();
 				$this->config['scale']['Factor'] = 1;
 				$this->config['padding']['All'] = 10;
 				break;
@@ -53,7 +53,7 @@ class Barcodes {
 			case 'gs1dmtx':
 			case 'gs1dmtxs':
 			case 'gs1dmtxr':
-				$this->renderer = new Renderers\Matrix();
+				$this->renderer = new Matrix();
 				$this->config['scale']['Factor'] = 4;
 				$this->config['padding']['All'] = 0;
 				break;
