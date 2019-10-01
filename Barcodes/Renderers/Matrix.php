@@ -53,7 +53,7 @@ class Matrix extends Base {
 			$y1 = floor($y + $by * $wh + $offset);
 			foreach ($row as $bx => $color) {
 				$x1 = floor($x + $bx * $wh + $offset);
-				$this->matrix_dot_image($x1, $y1, $this->config['palette'][$color]);
+				$this->matrix_dot_image($x1, $y1, $this->allocate_color($this->config['palette'][$color]));
 			}
 		}
 	}

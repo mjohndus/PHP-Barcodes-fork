@@ -22,15 +22,10 @@ class Base {
 		list($width, $height, $x, $y, $w, $h) = $this->calculate_size_ext();
 		$this->image = imagecreatetruecolor($width, $height);
 		imagesavealpha($this->image, true);
-
-		$this->allocate_colors();
-		// once again with the allocated colors
-		$this->configure($this->config);
-
-		imagefill($this->image, 0, 0, $this->config["BackgroundColor"]);
+		imagefill($this->image, 0, 0, $this->allocate_color($this->config["BackgroundColor"]));
 
 		$this->render_image($x, $y, $w, $h);
-		
+
 		switch ($type){
 			case "PNG":
 				if (is_null($path)){
@@ -77,9 +72,6 @@ class Base {
 			}
 		}
 
-		$this->allocate_colors();
-		$this->configure($this->config);
-
 		$this->render_image($x, $y, $w, $h);
 
 		if (!is_null($this->config["Angle"])){
@@ -108,21 +100,7 @@ class Base {
 		return [$iwidth, $iheight, $left, $top, $swidth, $sheight];
 	}
 
-	private function allocate_colors()
-	{
-		// label
-		$this->config["label"]['Color'] = $this->allocate_color($this->config["label"]['Color']);
-
-		// bgcolor
-		$this->config["BackgroundColor"] = $this->allocate_color($this->config["BackgroundColor"]);
-
-		// palette
-		foreach ($this->config["palette"] as $i => $color) {
-			$this->config["palette"][$i] = $this->allocate_color($color);
-		}
-	}
-
-	private function allocate_color(\Barcodes\BarColor $c)
+	protected function allocate_color(\Barcodes\BarColor $c)
 	{
 		return imagecolorallocatealpha($this->image, $c->R, $c->G, $c->B, $c->Alpha);
 	}

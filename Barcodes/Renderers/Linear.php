@@ -52,7 +52,7 @@ class Linear extends Base {
 
 			foreach ($block['m'] as $module){
 				$mw = $mx + $module[1] * $this->widths[$module[2]] * $scale;
-				imagefilledrectangle($this->image, $mx, $y, $mw - 1, $my - 1, $this->config['palette'][$module[0]]);
+				imagefilledrectangle($this->image, $mx, $y, $mw - 1, $my - 1, $this->allocate_color($this->config['palette'][$module[0]]));
 				$mx = $mw;
 			}
 
@@ -62,11 +62,12 @@ class Linear extends Base {
 					$lx = ($x + ($mx - $x) * $lx);
 					$lw = imagefontwidth($this->config['label']['Size']) * strlen($text);
 					$lx = round($lx - $lw / 2);
+					$textColor = $this->allocate_color($this->config['label']['Color']);
 					if (!is_null($this->config['label']['TTF'])){
 						$ly +=($this->config['label']['Size']*2) + $this->config['label']['Offset'];
-						imagettftext($this->image, $this->config['label']['Size'], 0, $lx, $ly, $this->config['label']['Color'], realpath($this->config['label']['TTF']), $text);
+						imagettftext($this->image, $this->config['label']['Size'], 0, $lx, $ly, $textColor, realpath($this->config['label']['TTF']), $text);
 					} else {
-						imagestring($this->image, $this->config['label']['Size'], $lx, $ly, $text, $this->config['label']['Color']);
+						imagestring($this->image, $this->config['label']['Size'], $lx, $ly, $text, $textColor);
 					}
 				}
 			}
