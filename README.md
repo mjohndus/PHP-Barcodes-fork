@@ -89,7 +89,7 @@ $opts = [
 		'TTF'  => NULL,  // Path to the TTF font
 		'Offset' => 0    // Additional space between the barcode and the label
 		],
-	"mm" => [
+	"modules" => [
 		'Shape' => '', // Module shape. One of: `s` for square, `r` for round, or `x` for X-shaped.
 				  Default is `s`. Applies to matrix barcodes only.
 		'Density' => 1 // Module density. A number between 0 and 1. Default is 1.

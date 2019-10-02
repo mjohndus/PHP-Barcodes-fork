@@ -95,8 +95,8 @@ class Barcodes {
 		$this->config['scale']['Vertial']	 = (isset($opts['scale']['Vertial']) 	? (float)$opts['scale']['Vertial'] 	  : $this->config["scale"]['Factor']);
 
 		// matrix modules
-		$this->config['mm']['Shape']   = (isset($opts['mm']['Shape'])   ? strtolower($opts['mm']['Shape']) : '');
-		$this->config['mm']['Density'] = (isset($opts['mm']['Density']) ? (float)$opts['mm']['Density'] : 1);
+		$this->config['modules']['Shape']   = (isset($opts['modules']['Shape'])   ? strtolower($opts['modules']['Shape']) : '');
+		$this->config['modules']['Density'] = (isset($opts['modules']['Density']) ? (float)$opts['modules']['Density'] : 1);
 
 		// dimentions
 		$this->config['Width']  = (isset($opts['Width'])  ? (int)$opts['Width']  : NULL);

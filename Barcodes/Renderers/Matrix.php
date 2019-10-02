@@ -40,10 +40,10 @@ class Matrix extends Base {
 		$y += $this->widths[0] * $scale;
 		$wh = $this->widths[1] * $scale;
 
-		$md = $this->config['mm']['Density'];
+		$md = $this->config['modules']['Density'];
 
 		$this->wh = ceil($wh * $md);
-		if ($this->config['mm']['Shape'] == 'r'){
+		if ($this->config['modules']['Shape'] == 'r'){
 			$md = 0;
 		}
 
@@ -62,7 +62,7 @@ class Matrix extends Base {
 	{
 		$offwh = $this->wh - 1;
 
-		switch ($this->config['mm']['Shape']) {
+		switch ($this->config['modules']['Shape']) {
 			default:
 				imagefilledrectangle($this->image, $x, $y, $x+$offwh, $y+$offwh, $mc);
 				break;
