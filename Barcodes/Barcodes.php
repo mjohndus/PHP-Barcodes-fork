@@ -17,47 +17,14 @@ class Barcodes {
 	{
 		$this->symbology = $symbology;
 
-		switch ($symbology) {
-			case 'upca':
-			case 'upce':
-			case 'ean13nopad':
-			case 'ean13pad':
-			case 'ean13':
-			case 'ean8':
-			case 'itf':
-			case 'itf14':
-			case 'codabar':
-			case 'code39':
-			case 'code39ascii':
-			case 'code93':
-			case 'code93ascii':
-			case 'code128':
-			case 'code128a':
-			case 'code128b':
-			case 'code128c':
-			case 'code128ac':
-			case 'code128bc':
-			case 'ean128':
-			case 'ean128a':
-			case 'ean128b':
-			case 'ean128c':
-			case 'ean128ac':
-			case 'ean128bc':
-				$this->renderer = new Linear();
-				$this->config['scale']['Factor'] = 1;
-				$this->config['padding']['All'] = 10;
-				break;
-			case 'dmtx':
-			case 'dmtxs':
-			case 'dmtxr':
-			case 'gs1dmtx':
-			case 'gs1dmtxs':
-			case 'gs1dmtxr':
-				$this->renderer = new Matrix();
-				$this->config['scale']['Factor'] = 4;
-				$this->config['padding']['All'] = 0;
-				break;
-			default: throw BarException::Std("Unknown encode method");
+		if (substr($symbology, 0, 4) == "dmtx"){
+			$this->renderer = new Matrix();
+			$this->config['scale']['Factor'] = 4;
+			$this->config['padding']['All'] = 0;
+		} else {
+			$this->renderer = new Linear();
+			$this->config['scale']['Factor'] = 1;
+			$this->config['padding']['All'] = 10;
 		}
 	}
 
@@ -190,9 +157,9 @@ class Barcodes {
 			case 'dmtx'       : return (new Encoders\DMTX())->dmtx_encode($data,false,false);
 			case 'dmtxs'      : return (new Encoders\DMTX())->dmtx_encode($data,false,false);
 			case 'dmtxr'      : return (new Encoders\DMTX())->dmtx_encode($data, true,false);
-			case 'gs1dmtx'    : return (new Encoders\DMTX())->dmtx_encode($data,false, true);
-			case 'gs1dmtxs'   : return (new Encoders\DMTX())->dmtx_encode($data,false, true);
-			case 'gs1dmtxr'   : return (new Encoders\DMTX())->dmtx_encode($data, true, true);
+			case 'dmtxgs1'    : return (new Encoders\DMTX())->dmtx_encode($data,false, true);
+			case 'dmtxsgs1'   : return (new Encoders\DMTX())->dmtx_encode($data,false, true);
+			case 'dmtxrgs1'   : return (new Encoders\DMTX())->dmtx_encode($data, true, true);
 			default: throw BarException::Std("Unknown encode method - ".$this->symbology);
 		}
 	}

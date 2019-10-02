@@ -23,11 +23,11 @@ use Barcodes\{
 };
 
 // upca         code39         dmtx
-// upce         code39-ascii   dmtx-s
-// ean8         code93         dmtx-r
-// ean13        code93-ascii   gs1dmtx
-// ean13pad     code128        gs1dmtxs
-// ean13nopad   codabar        gs1dmtxr
+// upce         code39-ascii   dmtxs
+// ean8         code93         dmtxr
+// ean13        code93-ascii   dmtxgs1  (gs1-dmtx)
+// ean13pad     code128        dmtxsgs1 (gs1-dmtx-s)
+// ean13nopad   codabar        dmtxrgs1 (gs1-dmtx-r)
 // ean128       itf
 
 $generator = new Barcodes("dmtxs");
