@@ -6,10 +6,15 @@ class DMTX {
 	
 	private $matrix;
 	private $ec_params;
+	private $rect;
+	private $fnc1;
 
 	public function dmtx_encode($data, $rect, $fnc1)
 	{
-		$data = $this->dmtx_encode_data($data, $rect, $fnc1);
+		$this->rect = $rect;
+		$this->fnc1 = $fnc1;
+
+		$data = $this->dmtx_encode_data($data);
 		$data = $this->dmtx_encode_ec($data);
 		list($h, $w, $mtx) = $this->dmtx_create_matrix($data);
 
@@ -20,10 +25,10 @@ class DMTX {
 		];
 	}
 
-	private function dmtx_encode_data($data, $rect, $fnc1)
+	private function dmtx_encode_data($data)
 	{
 		/* Convert to data codewords. */
-		$edata = ($fnc1 ? [232] : []);
+		$edata = ($this->fnc1 ? [232] : []);
 		$length = strlen($data);
 		$offset = 0;
 
@@ -47,7 +52,7 @@ class DMTX {
 		}
 		/* Add padding. */
 		$length = count($edata);
-		$this->ec_params = $this->dmtx_detect_version($length, $rect);
+		$this->ec_params = $this->dmtx_detect_version($length);
 		if ($length > $this->ec_params[0]) {
 			$length = $this->ec_params[0];
 			$edata = array_slice($edata, 0, $length);
@@ -67,9 +72,9 @@ class DMTX {
 		return $edata;
 	}
 
-	private function dmtx_detect_version($length, $rect)
+	private function dmtx_detect_version($length)
 	{
-		for ($i = ($rect ? 24 : 0), $j = ($rect ? 30 : 24); $i < $j; $i++) {
+		for ($i = ($this->rect ? 24 : 0), $j = ($this->rect ? 30 : 24); $i < $j; $i++) {
 			if ($length <= $this->dmtx_ec_params[$i][0]) {
 				return $this->dmtx_ec_params[$i];
 			}
