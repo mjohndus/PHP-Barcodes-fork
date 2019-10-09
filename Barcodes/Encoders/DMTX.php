@@ -277,26 +277,26 @@ class DMTX {
 
 	private function place_4($b)
 	{
-		$this->matrix[$this->rows - 1][        		 0] = (($b & 0x80) ? 1 : 0);
+		$this->matrix[$this->rows - 1][0] = (($b & 0x80) ? 1 : 0);
 		$this->matrix[$this->rows - 1][$this->cols - 1] = (($b & 0x40) ? 1 : 0);
-		$this->matrix[        0][$this->cols - 3] = (($b & 0x20) ? 1 : 0);
-		$this->matrix[        0][$this->cols - 2] = (($b & 0x10) ? 1 : 0);
-		$this->matrix[        0][$this->cols - 1] = (($b & 0x08) ? 1 : 0);
-		$this->matrix[        1][$this->cols - 3] = (($b & 0x04) ? 1 : 0);
-		$this->matrix[        1][$this->cols - 2] = (($b & 0x02) ? 1 : 0);
-		$this->matrix[        1][$this->cols - 1] = (($b & 0x01) ? 1 : 0);
+		$this->matrix[0][$this->cols - 3] = (($b & 0x20) ? 1 : 0);
+		$this->matrix[0][$this->cols - 2] = (($b & 0x10) ? 1 : 0);
+		$this->matrix[0][$this->cols - 1] = (($b & 0x08) ? 1 : 0);
+		$this->matrix[1][$this->cols - 3] = (($b & 0x04) ? 1 : 0);
+		$this->matrix[1][$this->cols - 2] = (($b & 0x02) ? 1 : 0);
+		$this->matrix[1][$this->cols - 1] = (($b & 0x01) ? 1 : 0);
 	}
 
 	private function place_0($row, $col, $b)
 	{
-		$this->place_b($row-2, $col-2, $b & 0x80);
-		$this->place_b($row-2, $col-1, $b & 0x40);
-		$this->place_b($row-1, $col-2, $b & 0x20);
-		$this->place_b($row-1, $col-1, $b & 0x10);
-		$this->place_b($row-1, $col-0, $b & 0x08);
-		$this->place_b($row-0, $col-2, $b & 0x04);
-		$this->place_b($row-0, $col-1, $b & 0x02);
-		$this->place_b($row-0, $col-0, $b & 0x01);
+		$this->place_b($row - 2, $col - 2, $b & 0x80);
+		$this->place_b($row - 2, $col - 1, $b & 0x40);
+		$this->place_b($row - 1, $col - 2, $b & 0x20);
+		$this->place_b($row - 1, $col - 1, $b & 0x10);
+		$this->place_b($row - 1, $col - 0, $b & 0x08);
+		$this->place_b($row - 0, $col - 2, $b & 0x04);
+		$this->place_b($row - 0, $col - 1, $b & 0x02);
+		$this->place_b($row - 0, $col - 0, $b & 0x01);
 	}
 
 	private function place_b($row, $col, $b)
