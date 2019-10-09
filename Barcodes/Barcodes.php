@@ -16,11 +16,16 @@ class Barcodes {
 		$this->symbology = $symbology;
 	}
 
+	private function isDataMatrix()
+	{
+		return (substr($this->symbology, 0, 4) == "dmtx");
+	}
+
 	private function parse_opts($opts)
 	{
 		$config = [];
 
-		if (substr($this->symbology, 0, 4) == "dmtx"){
+		if ($this->isDataMatrix()){
 			$config['scale']['Factor'] = 4;
 			$config['padding']['All'] = 0;
 		} else {
@@ -108,7 +113,7 @@ class Barcodes {
 
 	public function render($data, array $opts = [], $path)
 	{
-		if (substr($this->symbology, 0, 4) == "dmtx"){
+		if ($this->isDataMatrix()){
 			$renderer = new Matrix();
 		} else {
 			$renderer = new Linear();
@@ -121,7 +126,7 @@ class Barcodes {
 
 	public function forPChart(\pChart\pDraw $MyPicture, $data, array $opts = [], $X = NULL, $Y = NULL)
 	{
-		if (substr($this->symbology, 0, 4) == "dmtx"){
+		if ($this->isDataMatrix()){
 			$renderer = new Matrix();
 		} else {
 			$renderer = new Linear();
