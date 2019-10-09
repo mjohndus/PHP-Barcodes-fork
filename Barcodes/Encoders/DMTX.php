@@ -16,13 +16,13 @@ class DMTX {
 		$this->rect = $rect;
 		$this->fnc1 = $fnc1;
 
-		$data = $this->dmtx_encode_data($data);
-		$data = $this->dmtx_encode_ec($data);
+		$data = $this->encode_data($data);
+		$data = $this->encode_ec($data);
 
-		return $this->dmtx_create_matrix($data);
+		return $this->create_matrix($data);
 	}
 
-	private function dmtx_encode_data($data)
+	private function encode_data($data)
 	{
 		/* Convert to data codewords. */
 		$edata = ($this->fnc1 ? [232] : []);
@@ -49,7 +49,7 @@ class DMTX {
 		}
 		/* Add padding. */
 		$length = count($edata);
-		$this->ec_params = $this->dmtx_detect_version($length);
+		$this->ec_params = $this->detect_version($length);
 		if ($length > $this->ec_params[0]) {
 			$length = $this->ec_params[0];
 			$edata = array_slice($edata, 0, $length);
@@ -69,27 +69,27 @@ class DMTX {
 		return $edata;
 	}
 
-	private function dmtx_detect_version($length)
+	private function detect_version($length)
 	{
 		for ($i = ($this->rect ? 24 : 0), $j = ($this->rect ? 30 : 24); $i < $j; $i++) {
-			if ($length <= $this->dmtx_ec_params[$i][0]) {
-				return $this->dmtx_ec_params[$i];
+			if ($length <= $this->all_ec_params[$i][0]) {
+				return $this->all_ec_params[$i];
 			}
 		}
-		return $this->dmtx_ec_params[$j - 1];
+		return $this->all_ec_params[$j - 1];
 	}
 
-	private function dmtx_encode_ec($data)
+	private function encode_ec($data)
 	{
-		$blocks = $this->dmtx_ec_split($data);
+		$blocks = $this->ec_split($data);
 		for ($i = 0, $n = count($blocks); $i < $n; $i++) {
-			$ec_block = $this->dmtx_ec_divide($blocks[$i]);
+			$ec_block = $this->ec_divide($blocks[$i]);
 			$blocks[$i] = array_merge($blocks[$i], $ec_block);
 		}
-		return $this->dmtx_ec_interleave($blocks);
+		return $this->ec_interleave($blocks);
 	}
 
-	private function dmtx_ec_split($data)
+	private function ec_split($data)
 	{
 		$blocks = [];
 		$num_blocks = $this->ec_params[2] + $this->ec_params[4];
@@ -102,7 +102,7 @@ class DMTX {
 		return $blocks;
 	}
 
-	private function dmtx_ec_divide($data)
+	private function ec_divide($data)
 	{
 		$num_data = count($data);
 		$num_error = $this->ec_params[1];
@@ -123,7 +123,7 @@ class DMTX {
 		return array_slice($message, $num_data, $num_error);
 	}
 
-	private function dmtx_ec_interleave($blocks)
+	private function ec_interleave($blocks)
 	{
 		$data = [];
 		$num_blocks = count($blocks);
@@ -142,7 +142,7 @@ class DMTX {
 		return $data;
 	}
 
-	private function dmtx_create_matrix($data)
+	private function create_matrix($data)
 	{
 		/* Create matrix. */
 		$rheight = $this->ec_params[8] + 2;
@@ -172,7 +172,7 @@ class DMTX {
 			}
 			$this->matrix[] = $row;
 		}
-		$this->dmtx_place_data($data);
+		$this->place_data($data);
 		/* Copy into matrix. */
 		for ($yy = 0; $yy < $this->ec_params[6]; $yy++) {
 			for ($xx = 0; $xx < $this->ec_params[7]; $xx++) {
@@ -197,7 +197,7 @@ class DMTX {
 		];
 	}
 
-	private function dmtx_place_data($data)
+	private function place_data($data)
 	{
 		$row = 4;
 		$col = 0;
@@ -206,19 +206,19 @@ class DMTX {
 		while (($row < $this->rows || $col < $this->cols) && $offset < $length) {
 			/* Corner cases. Literally. */
 			if ($row == $this->rows && $col == 0) {
-				$this->dmtx_place_1($data[$offset++]);
+				$this->place_1($data[$offset++]);
 			} else if ($row == $this->rows - 2 && $col == 0 && $this->cols % 4 != 0) {
-				$this->dmtx_place_2($data[$offset++]);
+				$this->place_2($data[$offset++]);
 			} else if ($row == $this->rows - 2 && $col == 0 && $this->cols % 8 == 4) {
-				$this->dmtx_place_3($data[$offset++]);
+				$this->place_3($data[$offset++]);
 			} else if ($row == $this->rows + 4 && $col == 2 && $this->cols % 8 == 0) {
-				$this->dmtx_place_4($data[$offset++]);
+				$this->place_4($data[$offset++]);
 			}
 			/* Up and to the right. */
 			while ($row >= 0 && $col < $this->cols && $offset < $length) {
 				if ($row < $this->rows && $col >= 0 && is_null($this->matrix[$row][$col])) {
 					$b = $data[$offset++];
-					$this->dmtx_place_0($row, $col, $b);
+					$this->place_0($row, $col, $b);
 				}
 				$row -= 2;
 				$col += 2;
@@ -229,7 +229,7 @@ class DMTX {
 			while ($row < $this->rows && $col >= 0 && $offset < $length) {
 				if ($row >= 0 && $col < $this->cols && is_null($this->matrix[$row][$col])) {
 					$b = $data[$offset++];
-					$this->dmtx_place_0($row, $col, $b);
+					$this->place_0($row, $col, $b);
 				}
 				$row += 2;
 				$col -= 2;
@@ -239,7 +239,7 @@ class DMTX {
 		}
 	}
 
-	private function dmtx_place_1($b)
+	private function place_1($b)
 	{
 		$this->matrix[$this->rows - 1][0] = (($b & 0x80) ? 1 : 0);
 		$this->matrix[$this->rows - 1][1] = (($b & 0x40) ? 1 : 0);
@@ -251,7 +251,7 @@ class DMTX {
 		$this->matrix[3][$this->cols - 1] = (($b & 0x01) ? 1 : 0);
 	}
 
-	private function dmtx_place_2($b)
+	private function place_2($b)
 	{
 		$this->matrix[$this->rows - 3][0] = (($b & 0x80) ? 1 : 0);
 		$this->matrix[$this->rows - 2][0] = (($b & 0x40) ? 1 : 0);
@@ -263,7 +263,7 @@ class DMTX {
 		$this->matrix[1][$this->cols - 1] = (($b & 0x01) ? 1 : 0);
 	}
 
-	private function dmtx_place_3($b)
+	private function place_3($b)
 	{
 		$this->matrix[$this->rows - 3][0] = (($b & 0x80) ? 1 : 0);
 		$this->matrix[$this->rows - 2][0] = (($b & 0x40) ? 1 : 0);
@@ -275,7 +275,7 @@ class DMTX {
 		$this->matrix[3][$this->cols - 1] = (($b & 0x01) ? 1 : 0);
 	}
 
-	private function dmtx_place_4($b)
+	private function place_4($b)
 	{
 		$this->matrix[$this->rows - 1][        		 0] = (($b & 0x80) ? 1 : 0);
 		$this->matrix[$this->rows - 1][$this->cols - 1] = (($b & 0x40) ? 1 : 0);
@@ -287,19 +287,19 @@ class DMTX {
 		$this->matrix[        1][$this->cols - 1] = (($b & 0x01) ? 1 : 0);
 	}
 
-	private function dmtx_place_0($row, $col, $b)
+	private function place_0($row, $col, $b)
 	{
-		$this->dmtx_place_b($row-2, $col-2, $b & 0x80);
-		$this->dmtx_place_b($row-2, $col-1, $b & 0x40);
-		$this->dmtx_place_b($row-1, $col-2, $b & 0x20);
-		$this->dmtx_place_b($row-1, $col-1, $b & 0x10);
-		$this->dmtx_place_b($row-1, $col-0, $b & 0x08);
-		$this->dmtx_place_b($row-0, $col-2, $b & 0x04);
-		$this->dmtx_place_b($row-0, $col-1, $b & 0x02);
-		$this->dmtx_place_b($row-0, $col-0, $b & 0x01);
+		$this->place_b($row-2, $col-2, $b & 0x80);
+		$this->place_b($row-2, $col-1, $b & 0x40);
+		$this->place_b($row-1, $col-2, $b & 0x20);
+		$this->place_b($row-1, $col-1, $b & 0x10);
+		$this->place_b($row-1, $col-0, $b & 0x08);
+		$this->place_b($row-0, $col-2, $b & 0x04);
+		$this->place_b($row-0, $col-1, $b & 0x02);
+		$this->place_b($row-0, $col-0, $b & 0x01);
 	}
 
-	private function dmtx_place_b($row, $col, $b)
+	private function place_b($row, $col, $b)
 	{
 		if ($row < 0) {
 			$row += $this->rows;
@@ -312,7 +312,7 @@ class DMTX {
 		$this->matrix[$row][$col] = ($b ? 1 : 0);
 	}
 
-	/*  $dmtx_ec_params[] = array(                             */
+	/*  $all_ec_params[] = array(                              */
 	/*    total number of data codewords,                      */
 	/*    number of error correction codewords per block,      */
 	/*    number of blocks in first group,                     */
@@ -324,7 +324,7 @@ class DMTX {
 	/*    number of rows per data region,                      */
 	/*    number of columns per data region                    */
 	/*  );                                                     */
-	private $dmtx_ec_params = [
+	private $all_ec_params = [
 		[    3,  5, 1,   3, 0,   0, 1, 1,  8,  8],
 		[    5,  7, 1,   5, 0,   0, 1, 1, 10, 10],
 		[    8, 10, 1,   8, 0,   0, 1, 1, 12, 12],
