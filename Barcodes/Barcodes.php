@@ -162,7 +162,7 @@ class Barcodes {
 			case 'ean128c'    : return (new Encoders\Codes)->code_128_encode($data, 3, true);
 			case 'ean128ac'   : return (new Encoders\Codes)->code_128_encode($data,-1, true);
 			case 'ean128bc'   : return (new Encoders\Codes)->code_128_encode($data,-2, true);
-			case 'codabar'    : return (new Encoders\Codes)->codabar_encode($data);
+			case 'codabar'    : return (new Encoders\Codabar)->codabar_encode($data);
 			case 'itf'        : return (new Encoders\ITF())->itf_encode($data);
 			case 'itf14'      : return (new Encoders\ITF())->itf_encode($data);
 			case 'dmtx'       : return (new Encoders\DMTX())->dmtx_encode($data, false, false);
