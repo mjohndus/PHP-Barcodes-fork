@@ -421,7 +421,9 @@ class Codes {
 						$state = $abstate;
 					}
 					$chars = [102 + $state];
-					if ($fnc1) $chars[] = 102;
+					if ($fnc1) {
+						$chars[] = 102;
+					}
 					break;
 				case 1:
 					if ($dstate <= 0 && preg_match($detectc, $data, $m)) {
@@ -487,11 +489,7 @@ class Codes {
 						$chars[] = (int)$m[0];
 					} else {
 						if (preg_match($detectba, $data, $m)) {
-							if ($m[1]) {
-								$state = 2;
-							} else {
-								$state = 1;
-							}
+							$state = ($m[1]) ? 2 : 1;
 						} else {
 							$state = $abstate;
 						}

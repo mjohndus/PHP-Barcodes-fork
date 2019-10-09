@@ -7,7 +7,9 @@ class ITF {
 	public function itf_encode($data)
 	{
 		$data = preg_replace('/[^0-9]/', '', $data);
-		if (strlen($data) % 2) $data = '0' . $data;
+		if (strlen($data) % 2) {
+			$data = '0' . $data;
+		}
 		$blocks = [];
 		/* Quiet zone, start. */
 		$blocks[] = [

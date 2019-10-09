@@ -9,7 +9,7 @@ class CodaBar {
 		$data = strtoupper(preg_replace('/[^0-9ABCDENTabcdent*.\/:+$-]/', '', $data));
 		$blocks = [];
 		for ($i = 0, $n = strlen($data); $i < $n; $i++) {
-			if ($blocks) {
+			if (!empty($blocks)) {
 				$blocks[] = [
 					'm' => [[0, 1, 3]]
 				];
