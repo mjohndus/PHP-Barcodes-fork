@@ -9,39 +9,37 @@ use Barcodes\Renderers\Matrix;
 
 class Barcodes {
 
-	private $renderer;
 	private $symbology;
-	private $config = [];
 
 	function __construct(string $symbology)
 	{
 		$this->symbology = $symbology;
-
-		if (substr($symbology, 0, 4) == "dmtx"){
-			$this->renderer = new Matrix();
-			$this->config['scale']['Factor'] = 4;
-			$this->config['padding']['All'] = 0;
-		} else {
-			$this->renderer = new Linear();
-			$this->config['scale']['Factor'] = 1;
-			$this->config['padding']['All'] = 10;
-		}
 	}
 
 	private function parse_opts($opts)
 	{
+		$config = [];
+
+		if (substr($this->symbology, 0, 4) == "dmtx"){
+			$config['scale']['Factor'] = 4;
+			$config['padding']['All'] = 0;
+		} else {
+			$config['scale']['Factor'] = 1;
+			$config['padding']['All'] = 10;
+		}
+
 		// label
-		$this->config["label"] = ['Height' => 10, 'Size' => 1, 'Color' => new BarColor(0), 'Skip' => FALSE, 'TTF' => NULL, 'Offset' => 0];
+		$config["label"] = ['Height' => 10, 'Size' => 1, 'Color' => new BarColor(0), 'Skip' => FALSE, 'TTF' => NULL, 'Offset' => 0];
 
 		if (isset($opts['label'])){
-			$this->config["label"] = array_replace($this->config["label"], $opts['label']);
+			$config["label"] = array_replace($config["label"], $opts['label']);
 		}
 
 		// bgcolor
-		$this->config["BackgroundColor"] = (isset($opts['BackgroundColor'])) ? $opts['BackgroundColor'] : new BarColor(255);
+		$config["BackgroundColor"] = (isset($opts['BackgroundColor'])) ? $opts['BackgroundColor'] : new BarColor(255);
 
 		// palette
-		$this->config["palette"] = [
+		$config["palette"] = [
 			0 => new BarColor(255), 		// CS - Color of spaces
 			1 => new BarColor(0), 			// CM - Color of modules
 			2 => new BarColor(255,0, 0), 	// C2
@@ -55,22 +53,22 @@ class Barcodes {
 		];
 
 		if (isset($opts['palette'])){
-			$this->config["palette"] = array_replace($this->config["palette"], $opts['palette']);
+			$config["palette"] = array_replace($config["palette"], $opts['palette']);
 		}
 
 		// padding
 		if (isset($opts['padding']['All'])) {
-			$this->config['padding']['All'] = (int)$opts['padding']['All'];
+			$config['padding']['All'] = (int)$opts['padding']['All'];
 		}
-		$this->config['padding']['Horizontal'] 	= (isset($opts['padding']['Horizontal']) ? (int)$opts['padding']['Horizontal'] 	: $this->config['padding']['All']);
-		$this->config['padding']['Vertial']	 	= (isset($opts['padding']['Vertial']) 	 ? (int)$opts['padding']['Vertial'] 	: $this->config['padding']['All']);
-		$this->config['padding']['Top'] 		= (isset($opts['padding']['Top']) 	 	 ? (int)$opts['padding']['Top'] 		: $this->config['padding']['Vertial']);
-		$this->config['padding']['Bottom']  	= (isset($opts['padding']['Bottom']) 	 ? (int)$opts['padding']['Bottom']  	: $this->config['padding']['Vertial']);
-		$this->config['padding']['Right'] 		= (isset($opts['padding']['Right']) 	 ? (int)$opts['padding']['Right'] 		: $this->config['padding']['Horizontal']);
-		$this->config['padding']['Left']  		= (isset($opts['padding']['Left'])  	 ? (int)$opts['padding']['Left']  		: $this->config['padding']['Horizontal']);
+		$config['padding']['Horizontal'] 	= (isset($opts['padding']['Horizontal']) ? (int)$opts['padding']['Horizontal'] 	: $config['padding']['All']);
+		$config['padding']['Vertial']	 	= (isset($opts['padding']['Vertial']) 	 ? (int)$opts['padding']['Vertial'] 	: $config['padding']['All']);
+		$config['padding']['Top'] 			= (isset($opts['padding']['Top']) 	 	 ? (int)$opts['padding']['Top'] 		: $config['padding']['Vertial']);
+		$config['padding']['Bottom']  		= (isset($opts['padding']['Bottom']) 	 ? (int)$opts['padding']['Bottom']  	: $config['padding']['Vertial']);
+		$config['padding']['Right'] 		= (isset($opts['padding']['Right']) 	 ? (int)$opts['padding']['Right'] 		: $config['padding']['Horizontal']);
+		$config['padding']['Left']  		= (isset($opts['padding']['Left'])  	 ? (int)$opts['padding']['Left']  		: $config['padding']['Horizontal']);
 
 		// widths
-		$this->config['widths'] = [
+		$config['widths'] = [
 			'QuietArea' 	=> 1,
 			'NarrowModules' => 1,
 			'WideModules' 	=> 3,
@@ -84,46 +82,54 @@ class Barcodes {
 		];
 
 		if (isset($opts['widths'])){
-			$this->config['widths'] = array_replace($this->config['widths'], $opts['widths']);
+			$config['widths'] = array_replace($config['widths'], $opts['widths']);
 		}
 
 		// scale
 		if (isset($opts['scale']['Factor'])) {
-			$this->config['scale']['Factor'] = (float)$opts['scale']['Factor'];
+			$config['scale']['Factor'] = (float)$opts['scale']['Factor'];
 		}
-		$this->config['scale']['Horizontal'] = (isset($opts['scale']['Horizontal']) ? (float)$opts['scale']['Horizontal'] : $this->config["scale"]['Factor']);
-		$this->config['scale']['Vertial']	 = (isset($opts['scale']['Vertial']) 	? (float)$opts['scale']['Vertial'] 	  : $this->config["scale"]['Factor']);
+		$config['scale']['Horizontal'] = (isset($opts['scale']['Horizontal']) ? (float)$opts['scale']['Horizontal'] : $config["scale"]['Factor']);
+		$config['scale']['Vertial']	 = (isset($opts['scale']['Vertial']) 	? (float)$opts['scale']['Vertial'] 	  : $config["scale"]['Factor']);
 
 		// matrix modules
-		$this->config['modules']['Shape']   = (isset($opts['modules']['Shape'])   ? strtolower($opts['modules']['Shape']) : '');
-		$this->config['modules']['Density'] = (isset($opts['modules']['Density']) ? (float)$opts['modules']['Density'] : 1);
+		$config['modules']['Shape']   = (isset($opts['modules']['Shape'])   ? strtolower($opts['modules']['Shape']) : '');
+		$config['modules']['Density'] = (isset($opts['modules']['Density']) ? (float)$opts['modules']['Density'] : 1);
 
 		// dimentions
-		$this->config['Width']  = (isset($opts['Width'])  ? (int)$opts['Width']  : NULL);
-		$this->config['Height'] = (isset($opts['Height']) ? (int)$opts['Height'] : NULL);
+		$config['Width']  = (isset($opts['Width'])  ? (int)$opts['Width']  : NULL);
+		$config['Height'] = (isset($opts['Height']) ? (int)$opts['Height'] : NULL);
 
 		// rotation (pChart only)
-		$this->config['Angle'] = (isset($opts['Angle']) ? (int)$opts['Angle'] : NULL);
+		$config['Angle'] = (isset($opts['Angle']) ? (int)$opts['Angle'] : NULL);
+
+		return $config;
 	}
 
 	public function render($data, array $opts = [], $path)
 	{
-		$this->parse_opts($opts);
+		if (substr($this->symbology, 0, 4) == "dmtx"){
+			$renderer = new Matrix();
+		} else {
+			$renderer = new Linear();
+		}
 
 		$code = $this->encode($data);
-
-		$this->renderer->configure($this->config);
-		$this->renderer->create_image($code, $path);
+		$renderer->configure($this->parse_opts($opts));
+		$renderer->create_image($code, $path);
 	}
 
 	public function forPChart(\pChart\pDraw $MyPicture, $data, array $opts = [], $X = NULL, $Y = NULL)
 	{
-		$this->parse_opts($opts);
+		if (substr($this->symbology, 0, 4) == "dmtx"){
+			$renderer = new Matrix();
+		} else {
+			$renderer = new Linear();
+		}
 
 		$code = $this->encode($data);
-
-		$this->renderer->configure($this->config);
-		$this->renderer->use_image($MyPicture->gettheImage(), $code, $X, $Y);
+		$renderer->configure($this->parse_opts($opts));
+		$renderer->use_image($MyPicture->gettheImage(), $code, $X, $Y);
 	}
 
 	private function encode($data)
