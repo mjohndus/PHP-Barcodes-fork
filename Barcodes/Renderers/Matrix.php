@@ -6,18 +6,11 @@ class Matrix extends Base {
 
 	private $wh;
 
-	public function calculate_size()
+	protected function calculate_size()
 	{
-		$width = (
-			$this->widths[0] +
-			$this->code['width'] * $this->widths[1] +
-			$this->widths[0]
-		);
-		$height = (
-			$this->widths[0] +
-			$this->code['height'] * $this->widths[1] +
-			$this->widths[0]
-		);
+		$width  = (2 * $this->widths[0]) + ($this->code['width']  * $this->widths[1]);
+		$height = (2 * $this->widths[0]) + ($this->code['height'] * $this->widths[1]);
+
 		return [$width, $height];
 	}
 
