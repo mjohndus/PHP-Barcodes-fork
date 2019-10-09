@@ -65,12 +65,12 @@ class Barcodes {
 		if (isset($opts['padding']['All'])) {
 			$config['padding']['All'] = (int)$opts['padding']['All'];
 		}
-		$config['padding']['Horizontal'] 	= (isset($opts['padding']['Horizontal']) ? (int)$opts['padding']['Horizontal'] 	: $config['padding']['All']);
-		$config['padding']['Vertial']	 	= (isset($opts['padding']['Vertial']) 	 ? (int)$opts['padding']['Vertial'] 	: $config['padding']['All']);
-		$config['padding']['Top'] 			= (isset($opts['padding']['Top']) 	 	 ? (int)$opts['padding']['Top'] 		: $config['padding']['Vertial']);
-		$config['padding']['Bottom']  		= (isset($opts['padding']['Bottom']) 	 ? (int)$opts['padding']['Bottom']  	: $config['padding']['Vertial']);
-		$config['padding']['Right'] 		= (isset($opts['padding']['Right']) 	 ? (int)$opts['padding']['Right'] 		: $config['padding']['Horizontal']);
-		$config['padding']['Left']  		= (isset($opts['padding']['Left'])  	 ? (int)$opts['padding']['Left']  		: $config['padding']['Horizontal']);
+		$config['padding']['Horizontal'] = (isset($opts['padding']['Horizontal']) ? (int)$opts['padding']['Horizontal'] : $config['padding']['All']);
+		$config['padding']['Vertial']	 = (isset($opts['padding']['Vertial']) 	  ? (int)$opts['padding']['Vertial'] 	: $config['padding']['All']);
+		$config['padding']['Top'] 		 = (isset($opts['padding']['Top']) 	 	  ? (int)$opts['padding']['Top'] 		: $config['padding']['Vertial']);
+		$config['padding']['Bottom']  	 = (isset($opts['padding']['Bottom']) 	  ? (int)$opts['padding']['Bottom']  	: $config['padding']['Vertial']);
+		$config['padding']['Right'] 	 = (isset($opts['padding']['Right']) 	  ? (int)$opts['padding']['Right'] 		: $config['padding']['Horizontal']);
+		$config['padding']['Left']  	 = (isset($opts['padding']['Left'])  	  ? (int)$opts['padding']['Left']  		: $config['padding']['Horizontal']);
 
 		// widths
 		$config['widths'] = [
@@ -150,12 +150,12 @@ class Barcodes {
 			case 'code39ascii': return (new Encoders\Codes)->code_39_ascii_encode($data);
 			case 'code93'     : return (new Encoders\Codes)->code_93_encode($data);
 			case 'code93ascii': return (new Encoders\Codes)->code_93_ascii_encode($data);
-			case 'code128'    : return (new Encoders\Codes)->code_128_encode($data, 0,false);
-			case 'code128a'   : return (new Encoders\Codes)->code_128_encode($data, 1,false);
-			case 'code128b'   : return (new Encoders\Codes)->code_128_encode($data, 2,false);
-			case 'code128c'   : return (new Encoders\Codes)->code_128_encode($data, 3,false);
-			case 'code128ac'  : return (new Encoders\Codes)->code_128_encode($data,-1,false);
-			case 'code128bc'  : return (new Encoders\Codes)->code_128_encode($data,-2,false);
+			case 'code128'    : return (new Encoders\Codes)->code_128_encode($data, 0, false);
+			case 'code128a'   : return (new Encoders\Codes)->code_128_encode($data, 1, false);
+			case 'code128b'   : return (new Encoders\Codes)->code_128_encode($data, 2, false);
+			case 'code128c'   : return (new Encoders\Codes)->code_128_encode($data, 3, false);
+			case 'code128ac'  : return (new Encoders\Codes)->code_128_encode($data,-1, false);
+			case 'code128bc'  : return (new Encoders\Codes)->code_128_encode($data,-2, false);
 			case 'ean128'     : return (new Encoders\Codes)->code_128_encode($data, 0, true);
 			case 'ean128a'    : return (new Encoders\Codes)->code_128_encode($data, 1, true);
 			case 'ean128b'    : return (new Encoders\Codes)->code_128_encode($data, 2, true);
@@ -165,12 +165,12 @@ class Barcodes {
 			case 'codabar'    : return (new Encoders\Codes)->codabar_encode($data);
 			case 'itf'        : return (new Encoders\ITF())->itf_encode($data);
 			case 'itf14'      : return (new Encoders\ITF())->itf_encode($data);
-			case 'dmtx'       : return (new Encoders\DMTX())->dmtx_encode($data,false,false);
-			case 'dmtxs'      : return (new Encoders\DMTX())->dmtx_encode($data,false,false);
-			case 'dmtxr'      : return (new Encoders\DMTX())->dmtx_encode($data, true,false);
-			case 'dmtxgs1'    : return (new Encoders\DMTX())->dmtx_encode($data,false, true);
-			case 'dmtxsgs1'   : return (new Encoders\DMTX())->dmtx_encode($data,false, true);
-			case 'dmtxrgs1'   : return (new Encoders\DMTX())->dmtx_encode($data, true, true);
+			case 'dmtx'       : return (new Encoders\DMTX())->dmtx_encode($data, false, false);
+			case 'dmtxs'      : return (new Encoders\DMTX())->dmtx_encode($data, false, false);
+			case 'dmtxr'      : return (new Encoders\DMTX())->dmtx_encode($data, true,  false);
+			case 'dmtxgs1'    : return (new Encoders\DMTX())->dmtx_encode($data, false, true);
+			case 'dmtxsgs1'   : return (new Encoders\DMTX())->dmtx_encode($data, false, true);
+			case 'dmtxrgs1'   : return (new Encoders\DMTX())->dmtx_encode($data, true,  true);
 			default: throw BarException::Std("Unknown encode method - ".$this->symbology);
 		}
 	}
