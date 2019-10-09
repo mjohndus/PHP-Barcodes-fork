@@ -33,11 +33,11 @@ class Linear extends Base {
 		foreach ($this->code as $block){
 
 			if (isset($block['l'])) {
+				$lsize = $this->config['label']['Size'];
 				$ly = (isset($block['l'][1]) ? (float)$block['l'][1] : 1);
-				$lx = (isset($block['l'][2]) ? (float)$block['l'][2] : 0.5);
 				$my = round($y + min($h, $h + ($ly - 1) * $this->config['label']['Height']));
 				$ly = ($y + $h + $ly * $this->config['label']['Height']);
-				$ly = round($ly - imagefontheight($this->config['label']['Size']));
+				$ly = round($ly - imagefontheight($lsize));
 			} else {
 				$my = $y + $h;
 			}
@@ -53,15 +53,16 @@ class Linear extends Base {
 			if ($this->config['label']['Skip'] != TRUE){
 				if (isset($block['l'])){
 					$text = $block['l'][0];
+					$lx = (isset($block['l'][2]) ? (float)$block['l'][2] : 0.5);
 					$lx = ($x + ($mx - $x) * $lx);
-					$lw = imagefontwidth($this->config['label']['Size']) * strlen($text);
+					$lw = imagefontwidth($lsize) * strlen($text);
 					$lx = round($lx - $lw / 2);
 					$textColor = $this->allocate_color($this->config['label']['Color']);
 					if (!is_null($this->config['label']['TTF'])){
-						$ly +=($this->config['label']['Size']*2) + $this->config['label']['Offset'];
-						imagettftext($this->image, $this->config['label']['Size'], 0, $lx, $ly, $textColor, realpath($this->config['label']['TTF']), $text);
+						$ly +=($lsize*2) + $this->config['label']['Offset'];
+						imagettftext($this->image, $lsize, 0, $lx, $ly, $textColor, realpath($this->config['label']['TTF']), $text);
 					} else {
-						imagestring($this->image, $this->config['label']['Size'], $lx, $ly, $text, $textColor);
+						imagestring($this->image,  $lsize, $lx, $ly, $text, $textColor);
 					}
 				}
 			}
