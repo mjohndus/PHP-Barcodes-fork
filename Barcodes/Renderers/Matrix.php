@@ -51,15 +51,14 @@ class Matrix extends Base {
 
 				switch ($this->config['modules']['Shape']) {
 					case 'r':
-						imagefilledellipse($this->image, $x1, $y1, $offwh + 1, $offwh + 1, $mc);
+						imagefilledellipse($this->image, $x1, $y1, $whd, $whd, $mc);
 						break;
 					case 'x':
-						imageline($this->image, $x1, $y1, $x1+$offwh, $y1+$offwh, $mc);
-						imageline($this->image, $x1, $y1+$offwh, $x1+$offwh, $y1, $mc);
+						imageline($this->image, $x1, $y1, $x1 + $offwh, $y1 + $offwh, $mc);
+						imageline($this->image, $x1, $y1 + $offwh, $x1 + $offwh, $y1, $mc);
 						break;
 					default:
-						imagefilledrectangle($this->image, $x1, $y1, $x1+$offwh, $y1+$offwh, $mc);
-						break;
+						imagefilledrectangle($this->image, $x1, $y1, $x1 + $offwh, $y1 + $offwh, $mc);
 				}
 			}
 		}
