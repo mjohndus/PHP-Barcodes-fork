@@ -19,13 +19,7 @@ class Linear extends Base {
 
 	public function render_image($x, $y, $w, $h)
 	{
-		$width = 0;
-
-		foreach ($this->code as $block){
-			foreach ($block['m'] as $module) {
-				$width += $module[1] * $this->widths[$module[2]];
-			}
-		}
+		list($width, ) = $this->calculate_size();
 
 		if ($width > 0) {
 			$scale = $w / $width;
