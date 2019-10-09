@@ -20,6 +20,8 @@ class Linear extends Base {
 	public function render_image($x, $y, $w, $h)
 	{
 		list($width, ) = $this->calculate_size();
+		$lsize = $this->config['label']['Size'];
+		$textColor = $this->allocate_color($this->config['label']['Color']);
 
 		if ($width > 0) {
 			$scale = $w / $width;
@@ -30,35 +32,33 @@ class Linear extends Base {
 			$x = floor($x + $w / 2);
 		}
 
-		foreach ($this->code as $block){
+		foreach ($this->code as $block) {
 
 			if (isset($block['l'])) {
-				$lsize = $this->config['label']['Size'];
 				$ly = (isset($block['l'][1]) ? (float)$block['l'][1] : 1);
 				$my = round($y + min($h, $h + ($ly - 1) * $this->config['label']['Height']));
-				$ly = ($y + $h + $ly * $this->config['label']['Height']);
-				$ly = round($ly - imagefontheight($lsize));
 			} else {
 				$my = $y + $h;
 			}
 
 			$mx = $x;
 
-			foreach ($block['m'] as $module){
+			foreach ($block['m'] as $module) {
 				$mw = $mx + $module[1] * $this->widths[$module[2]] * $scale;
 				imagefilledrectangle($this->image, $mx, $y, $mw - 1, $my - 1, $this->allocate_color($this->config['palette'][$module[0]]));
 				$mx = $mw;
 			}
 
-			if ($this->config['label']['Skip'] != TRUE){
-				if (isset($block['l'])){
+			if ($this->config['label']['Skip'] != TRUE) {
+				if (isset($block['l'])) {
 					$text = $block['l'][0];
 					$lx = (isset($block['l'][2]) ? (float)$block['l'][2] : 0.5);
 					$lx = ($x + ($mx - $x) * $lx);
 					$lw = imagefontwidth($lsize) * strlen($text);
 					$lx = round($lx - $lw / 2);
-					$textColor = $this->allocate_color($this->config['label']['Color']);
-					if (!is_null($this->config['label']['TTF'])){
+					$ly = ($y + $h + $ly * $this->config['label']['Height']);
+					$ly = round($ly - imagefontheight($lsize));
+					if (!is_null($this->config['label']['TTF'])) {
 						$ly +=($lsize*2) + $this->config['label']['Offset'];
 						imagettftext($this->image, $lsize, 0, $lx, $ly, $textColor, realpath($this->config['label']['TTF']), $text);
 					} else {
