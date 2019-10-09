@@ -4,8 +4,6 @@ namespace Barcodes\Renderers;
 
 class Matrix extends Base {
 
-	private $wh;
-
 	protected function calculate_size()
 	{
 		$width  = (2 * $this->widths[0]) + ($this->code['width']  * $this->widths[1]);
@@ -34,41 +32,38 @@ class Matrix extends Base {
 		$wh = $this->widths[1] * $scale;
 
 		$md = $this->config['modules']['Density'];
-
-		$this->wh = ceil($wh * $md);
+		$whd = ceil($wh * $md);
 		if ($this->config['modules']['Shape'] == 'r'){
 			$md = 0;
 		}
 
-		$offset = (1 - $md) * $this->wh / 2;
+		$offset = (1 - $md) * $whd / 2;
 
 		foreach ($this->code['matrix'] as $by => $row) {
+
 			$y1 = floor($y + $by * $wh + $offset);
+
 			foreach ($row as $bx => $color) {
+
+				$mc = $this->allocate_color($this->config['palette'][$color]);
 				$x1 = floor($x + $bx * $wh + $offset);
-				$this->matrix_dot_image($x1, $y1, $this->allocate_color($this->config['palette'][$color]));
+				$offwh = $whd - 1;
+
+				switch ($this->config['modules']['Shape']) {
+					case 'r':
+						imagefilledellipse($this->image, $x1, $y1, $offwh + 1, $offwh + 1, $mc);
+						break;
+					case 'x':
+						imageline($this->image, $x1, $y1, $x1+$offwh, $y1+$offwh, $mc);
+						imageline($this->image, $x1, $y1+$offwh, $x1+$offwh, $y1, $mc);
+						break;
+					default:
+						imagefilledrectangle($this->image, $x1, $y1, $x1+$offwh, $y1+$offwh, $mc);
+						break;
+				}
 			}
 		}
 	}
-
-	private function matrix_dot_image($x, $y, $mc)
-	{
-		$offwh = $this->wh - 1;
-
-		switch ($this->config['modules']['Shape']) {
-			default:
-				imagefilledrectangle($this->image, $x, $y, $x+$offwh, $y+$offwh, $mc);
-				break;
-			case 'r':
-				imagefilledellipse($this->image, $x, $y, $offwh + 1, $offwh + 1, $mc);
-				break;
-			case 'x':
-				imageline($this->image, $x, $y, $x+$offwh, $y+$offwh, $mc);
-				imageline($this->image, $x, $y+$offwh, $x+$offwh, $y, $mc);
-				break;
-		}
-	}
-
 }
 
 ?>
