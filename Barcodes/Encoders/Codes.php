@@ -404,7 +404,9 @@ class Codes {
 		$abstate = ((abs($dstate) == 2) ? 2 : 1);
 		$chars = [102 + ($state ? $state : $abstate)];
 
-		if ($fnc1) $chars[] = 102;
+		if ($fnc1) {
+			$chars[] = 102;
+		}
 
 		while (strlen($data)) {
 			switch ($state) {
