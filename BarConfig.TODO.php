@@ -49,9 +49,9 @@ class CFG {
 		}
 	}
 
-	public function add(string $branch, array $myConfig)
+	public function alter(string $branch, array $myConfig)
 	{
-		if (property_exists($this, $branch)){
+		if (isset($this->$branch)){
 			$this->mergeConfig($branch, $myConfig);
 		} else {
 			die("CFG: No such branch - $branch");
@@ -73,11 +73,11 @@ class CFG {
 }
 
 $cfg = new CFG();
-$cfg->add('label', ["w" => 6, "text" => NULL]);
+$cfg->alter('label', ["w" => 6, "text" => NULL]);
 
 var_dump($cfg);
 
-$cfg->add('colors', ["c0" => new \Barcodes\BarColor(255)]);
+$cfg->alter('colors', ["c0" => new \Barcodes\BarColor(255)]);
 
 var_dump($cfg);
 
