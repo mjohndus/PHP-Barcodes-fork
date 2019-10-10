@@ -181,7 +181,9 @@ class DMTX {
 						$row = $yy * $this->ec_params[8] + $y;
 						$col = $xx * $this->ec_params[9] + $x;
 						$b = $this->matrix[$row][$col];
-						if (is_null($b)) continue;
+						if (is_null($b)) {
+							continue;
+						}
 						$row = $yy * $rheight + $y + 1;
 						$col = $xx * $rwidth + $x + 1;
 						$bitmap[$row][$col] = $b;
