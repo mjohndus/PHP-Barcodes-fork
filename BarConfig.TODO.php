@@ -45,7 +45,7 @@ class CFG {
 		} catch (\TypeError $ex) {
 			$msg = $ex->getMessage();
 			$msg = str_replace("class@anonymous", $name, $msg);
-			die($msg);
+			throw new \Exception("CFG:: ".$msg);
 		}
 	}
 
@@ -54,7 +54,7 @@ class CFG {
 		if (isset($this->$branch)){
 			$this->mergeConfig($branch, $myConfig);
 		} else {
-			die("CFG: No such branch - $branch");
+			throw new \Exception("CFG:: No such branch - $branch");
 		}
 	}
 
@@ -64,10 +64,10 @@ class CFG {
 			if (isset($this->$branch->$property)){
 				return $this->$branch->$property;
 			} else {
-				die("CFG: No such property -> $property for branch -> $branch");
+				throw new \Exception("CFG:: No such property -> $property for branch -> $branch");
 			}
 		} else {
-			die("CFG: No such branch -> $branch");
+			throw new \Exception("CFG:: No such branch -> $branch");
 		}
 	}
 }
@@ -82,3 +82,5 @@ $cfg->alter('colors', ["c0" => new \Barcodes\BarColor(255)]);
 var_dump($cfg);
 
 var_dump($cfg->get('label', 'w'));
+
+$cfg->alter('label', ["w" => "TEST", "text" => NULL]);
