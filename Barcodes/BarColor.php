@@ -4,10 +4,10 @@ namespace Barcodes;
 
 class BarColor 
 {
-	public $R;
-	public $G;
-	public $B;
-	public $Alpha;
+	private $R;
+	private $G;
+	private $B;
+	private $Alpha;
 
 	function __construct(int $R = 0, int $G = 0, int $B = 0, float $Alpha = 100)
 	{
@@ -30,6 +30,11 @@ class BarColor
 		$this->G = $G;
 		$this->B = $B;
 		$this->Alpha = (1.27 * (100 - $Alpha));
+	}
+
+	public function get()
+	{
+		return [$this->R, $this->G, $this->B, $this->Alpha];
 	}
 
 	public function fromHex(string $hex, int $Alpha = 100)

@@ -102,7 +102,8 @@ class Base {
 
 	protected function allocate_color(\Barcodes\BarColor $c)
 	{
-		return imagecolorallocatealpha($this->image, $c->R, $c->G, $c->B, $c->Alpha);
+		list ($R, $G, $B, $A) = $c->get();
+		return imagecolorallocatealpha($this->image, $R, $G, $B, $A);
 	}
 }
 
