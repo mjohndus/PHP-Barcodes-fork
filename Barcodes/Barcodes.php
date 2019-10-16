@@ -45,16 +45,16 @@ class Barcodes {
 
 		// palette
 		$config["palette"] = [
-			0 => new BarColor(255), 		// CS - Color of spaces
-			1 => new BarColor(0), 			// CM - Color of modules
-			2 => new BarColor(255,0, 0), 	// C2
-			3 => new BarColor(255,255, 0),	// C3
-			4 => new BarColor(0,255, 0),	// C4
-			5 => new BarColor(0,255, 255),	// C5
-			6 => new BarColor(0,0, 255),	// C6
-			7 => new BarColor(255,0, 255),	// C7
-			8 => new BarColor(255),			// C8
-			9 => new BarColor(0)			// C9
+			0 => new BarColor(255), // CS - Color of spaces
+			1 => new BarColor(0), 	// CM - Color of modules
+			2 => NULL, // C2 => new BarColor(255,0, 0)
+			3 => NULL, // C3 => new BarColor(255,255, 0)
+			4 => NULL, // C4 => new BarColor(0,255, 0)
+			5 => NULL, // C5 => new BarColor(0,255, 255)
+			6 => NULL, // C6 => new BarColor(0,0, 255)
+			7 => NULL, // C7 => new BarColor(255,0, 255)
+			8 => NULL, // C8 => new BarColor(255)
+			9 => NULL  // C9 => new BarColor(0)
 		];
 
 		if (isset($opts['palette'])){
