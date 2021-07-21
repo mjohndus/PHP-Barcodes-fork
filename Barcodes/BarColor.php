@@ -29,7 +29,7 @@ class BarColor
 		$this->R = $R;
 		$this->G = $G;
 		$this->B = $B;
-		$this->Alpha = (1.27 * (100 - $Alpha));
+		$this->Alpha = $Alpha;
 	}
 
 	public function get()
@@ -40,19 +40,19 @@ class BarColor
 	public function fromHex(string $hex, int $Alpha = 100)
 	{
 		if ($hex[0] == '#'){
-        	$hex = substr($hex, 1);
-        }
+			$hex = substr($hex, 1);
+		}
 
 		if (strlen($hex) == 6) {
 			list($R, $G, $B) = str_split($hex, 2);
 			$this->R = hexdec($R);
 			$this->G = hexdec($G);
 			$this->B = hexdec($B);
-			$this->Alpha = (1.27 * (100 - $Alpha));
+			$this->Alpha = $Alpha;
 		} else {
 			throw new \Exception("BarColor: wrong format - ".$hex);
 		}
-		
+
 		return $this;
 	}
 
