@@ -39,13 +39,25 @@ class Matrix extends Base {
 
 		$offset = (1 - $md) * $whd / 2;
 
+		# Color pre-allocation speeds things up significantly
+		$colors = [];
+		foreach ($this->code['matrix'] as $by => $row) {
+			foreach ($row as $bx => $color) {
+				$colors[$color] = 1;
+			}
+		}
+
+		foreach($colors as $c => $valid){
+			$colors[$c] = $this->allocate_color($this->config['palette'][$c]);
+		}
+
 		foreach ($this->code['matrix'] as $by => $row) {
 
 			$y1 = floor($y + $by * $wh + $offset);
 
 			foreach ($row as $bx => $color) {
 
-				$mc = $this->allocate_color($this->config['palette'][$color]);
+				$mc = $colors[$color];
 				$x1 = floor($x + $bx * $wh + $offset);
 				$offwh = $whd - 1;
 
