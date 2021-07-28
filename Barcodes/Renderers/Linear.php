@@ -32,6 +32,13 @@ class Linear extends Base {
 			$x = floor($x + $w / 2);
 		}
 
+		$palette = [];
+		foreach($this->config['palette'] as $id => $color) {
+			if ($color instanceof \Barcodes\BarColor){
+				$palette[$id] = $this->allocate_color($color);
+			}
+		}
+
 		foreach ($this->code as $block) {
 
 			if (isset($block['l'])) {
@@ -45,7 +52,7 @@ class Linear extends Base {
 
 			foreach ($block['m'] as $module) {
 				$mw = $mx + $module[1] * $this->widths[$module[2]] * $scale;
-				imagefilledrectangle($this->image, $mx, $y, $mw - 1, $my - 1, $this->allocate_color($this->config['palette'][$module[0]]));
+				imagefilledrectangle($this->image, $mx, $y, $mw - 1, $my - 1, $palette[$module[0]]);
 				$mx = $mw;
 			}
 
