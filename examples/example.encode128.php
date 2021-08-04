@@ -10,6 +10,6 @@ use Barcodes\{
 $generator = new Barcodes("code128");
 $data = "Do what you want !";
 
-$generator->render($data, [], "temp/encode128.png");
+$generator->render($data, "temp/encode128.png", []);
 
 ?>

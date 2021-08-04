@@ -19,6 +19,6 @@ $opts = [
 	]
 ];
 
-$generator->render($data, $opts, "temp/encode39.png");
+$generator->render($data, "temp/encode39.png", $opts);
 
 ?>

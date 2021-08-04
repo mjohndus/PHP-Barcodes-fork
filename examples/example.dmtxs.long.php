@@ -16,6 +16,6 @@ $opts = [
 	]
 ];
 
-$generator->render($data, $opts, "temp/example_dmtxs_long.png");
+$generator->render($data, "temp/example_dmtxs_long.png", $opts);
 
 ?>

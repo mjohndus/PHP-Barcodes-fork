@@ -111,7 +111,7 @@ class Barcodes {
 		return $config;
 	}
 
-	public function render($data, array $opts = [], $path)
+	public function render($data, $path, array $opts = [])
 	{
 		if ($this->isDataMatrix()){
 			$renderer = new Matrix();
@@ -122,19 +122,6 @@ class Barcodes {
 		$code = $this->encode($data);
 		$renderer->configure($this->parse_opts($opts));
 		$renderer->create_image($code, $path);
-	}
-
-	public function forPChart(\pChart\pDraw $MyPicture, $data, array $opts = [], $X = NULL, $Y = NULL)
-	{
-		if ($this->isDataMatrix()){
-			$renderer = new Matrix();
-		} else {
-			$renderer = new Linear();
-		}
-
-		$code = $this->encode($data);
-		$renderer->configure($this->parse_opts($opts));
-		$renderer->use_image($MyPicture->gettheImage(), $code, $X, $Y);
 	}
 
 	private function encode($data)
