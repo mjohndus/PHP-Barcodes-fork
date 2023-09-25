@@ -319,9 +319,9 @@ class UPC {
 		}
 
 		/* Replace * with missing or check digit. */
-		while (($o = strrpos($data, '*')) !== false) {
+		while (($o = strpos($data, '*')) !== false) {
 			$checksum = 0;
-			for ($i = 0; $i < 12; $i++) {
+			for ($i = 0; $i < $o; $i++) {
 				$digit = substr($data, $i, 1);
 				$checksum += (($i % 2) ? 1 : 3) * $digit;
 			}
@@ -378,9 +378,9 @@ class UPC {
 			$data = $left . $right;
 		}
 		/* Replace * with missing or check digit. */
-		while (($o = strrpos($data, '*')) !== false) {
+		while (($o = strpos($data, '*')) !== false) {
 			$checksum = 0;
-			for ($i = 0; $i < 13; $i++) {
+			for ($i = 0; $i < $o; $i++) {
 				$digit = substr($data, $i, 1);
 				$checksum += (($i % 2) ? 3 : 1) * $digit;
 			}
@@ -409,9 +409,9 @@ class UPC {
 			$data = $left . $right;
 		}
 		/* Replace * with missing or check digit. */
-		while (($o = strrpos($data, '*')) !== false) {
+		while (($o = strpos($data, '*')) !== false) {
 			$checksum = 0;
-			for ($i = 0; $i < 8; $i++) {
+			for ($i = 0; $i < $o; $i++) {
 				$digit = substr($data, $i, 1);
 				$checksum += (($i % 2) ? 1 : 3) * $digit;
 			}
